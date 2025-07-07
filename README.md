@@ -28,8 +28,6 @@ A scalable and resilient backend service to manage, track, and analyze video adv
 
 ## 🛠️ Setup Instructions
 
-### 1. Clone the Repository
-
 ```bash
 git clone https://github.com/your-username/ads-tracker.git
 cd ads-tracker
