@@ -1,0 +1,8 @@
+# .dockerignore
+*.go
+*.out
+*.log
+vendor
+.env
+.git
+.gitignore

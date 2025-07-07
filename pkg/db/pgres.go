@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -15,14 +16,16 @@ func InitPostgres() {
 	url := os.Getenv("DB_URL")
 
 	var err error
-	DB, err = sql.Open("postgres", url)
-	if err != nil {
-		log.Fatalf("Failed to open DB: %v", err)
+	for i := 0; i < 10; i++ {
+		DB, err = sql.Open("postgres", url)
+		if err == nil && DB.Ping() == nil {
+			fmt.Println("Connected to PostgreSQL")
+			return
+		}
+
+		log.Printf("Failed to connect to DB (attempt %d/10): %v", i+1, err)
+		time.Sleep(2 * time.Second)
 	}
 
-	if err = DB.Ping(); err != nil {
-		log.Fatalf("Failed to ping DB: %v", err)
-	}
-
-	fmt.Println("Connected to PostgreSQL")
+	log.Fatalf("Could not connect to DB after 10 attempts: %v", err)
 }
